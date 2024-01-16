@@ -25,7 +25,7 @@ async function main(){
 //Index Route
 app.get("/chats", async(req,res)=>{
     let chats = await Chat.find();
-    console.log(chats);
+    //console.log(chats);
     res.render("index.ejs", {chats});
 });
 //New Route
@@ -62,6 +62,14 @@ app.put("/chats/:id",async (req,res)=>{
     let {msg : newmsg} = req.body;
     let updatechat = await Chat.findByIdAndUpdate(id, {msg : newmsg}, {runValidators:true}, {new:true});
     console.log("Updated");
+    res.redirect("/chats");
+});
+
+//Destroy Route
+app.delete("/chats/:id",async (req,res)=>{
+    let {id} = req.params;
+    let deletedchat = await Chat.findByIdAndDelete(id);
+    console.log(deletedchat);
     res.redirect("/chats");
 });
 
